@@ -36,8 +36,8 @@ const realTeam: TeamMember[] = [
   {
     id: "chi",
     name: "Chi",
-    titleEn: "Industry Consulting Partner",
-    titleZh: "产业咨询合伙人",
+    titleEn: "Co-founder & Industry Consulting Partner",
+    titleZh: "联合创始人 & 产业咨询合伙人",
     descEn: "Specialist in cross-sector industry partnerships and market development across ANZ and Asian business environments. Biography coming soon.",
     descZh: "专注于澳新与亚洲市场的产业合作与跨行业发展，详细简介即将发布。",
     tags: ["Industry Advisory", "Partnerships", "Market Development"],
@@ -50,8 +50,8 @@ const realTeam: TeamMember[] = [
   {
     id: "jay",
     name: "Jay",
-    titleEn: "Education Consulting Partner",
-    titleZh: "教育咨询合伙人",
+    titleEn: "Co-founder & Education Consulting Partner",
+    titleZh: "联合创始人 & 教育咨询合伙人",
     descEn: "Expert in international education pathways and institutional partnerships bridging Australian and Asian education ecosystems. Biography coming soon.",
     descZh: "国际教育通道与澳亚教育机构合作专家，详细简介即将发布。",
     tags: ["Education", "Institutional Partnerships", "Student Pathways"],
