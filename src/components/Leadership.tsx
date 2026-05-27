@@ -22,8 +22,8 @@ const realTeam: TeamMember[] = [
   {
     id: "joyce",
     name: "Joyce",
-    titleEn: "Founder & Strategic Advisory Lead",
-    titleZh: "创始人 & 战略咨询负责人",
+    titleEn: "Founder & Strategic Advisory Partner",
+    titleZh: "创始人 & 战略咨询合伙人",
     descEn: "Cross-border strategy specialist with deep expertise in ANZ–Asia market entry and international business development. Biography and full profile coming soon.",
     descZh: "跨境战略专家，深耕澳新亚市场进入与国际商务拓展。详细简介即将发布。",
     tags: ["Strategy", "Market Entry", "International Expansion"],
