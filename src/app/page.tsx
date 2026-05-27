@@ -7,6 +7,7 @@ import CrossBorderExpertise from "@/components/CrossBorderExpertise";
 import Leadership from "@/components/Leadership";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import Nova from "@/components/Nova";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <Leadership />
       <Contact />
       <Footer />
+      <Nova />
     </main>
   );
 }
