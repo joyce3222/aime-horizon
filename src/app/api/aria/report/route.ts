@@ -8,11 +8,22 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // ─── Date helpers ─────────────────────────────────────────────────────────────
 
 function getWeekRange(): { display: string; iso: string } {
-  const now = new Date(
-    new Date().toLocaleString("en-AU", { timeZone: "Australia/Melbourne" })
-  );
-  const monday = new Date(now);
-  monday.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+  const now = new Date();
+
+  // Get current date in Melbourne timezone (en-CA returns YYYY-MM-DD format)
+  const isoDate = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Australia/Melbourne",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
+
+  const [year, month, day] = isoDate.split("-").map(Number);
+  const melbDate = new Date(year, month - 1, day);
+
+  // Find Monday of this week
+  const monday = new Date(melbDate);
+  monday.setDate(melbDate.getDate() - ((melbDate.getDay() + 6) % 7));
   const friday = new Date(monday);
   friday.setDate(monday.getDate() + 4);
 
@@ -21,7 +32,7 @@ function getWeekRange(): { display: string; iso: string } {
 
   return {
     display: `${fmt(monday)} – ${fmt(friday)}`,
-    iso: now.toISOString().split("T")[0],
+    iso: isoDate,
   };
 }
 
