@@ -58,10 +58,10 @@ export default function Footer() {
             </p>
             <div className="space-y-2">
               <a
-                href="mailto:hello@aimehorizon.com"
+                href="mailto:joycez@aimehorizon.com"
                 className="block text-white/40 hover:text-gold text-xs font-sans font-light transition-colors duration-300"
               >
-                hello@aimehorizon.com
+                joycez@aimehorizon.com
               </a>
               <a
                 href="https://www.aimehorizon.com"

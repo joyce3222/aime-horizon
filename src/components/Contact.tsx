@@ -105,10 +105,10 @@ export default function Contact() {
                   </svg>
                 </div>
                 <a
-                  href="mailto:hello@aimehorizon.com"
+                  href="mailto:joycez@aimehorizon.com"
                   className="font-sans font-light text-white/55 text-sm hover:text-gold transition-colors duration-300"
                 >
-                  hello@aimehorizon.com
+                  joycez@aimehorizon.com
                 </a>
               </div>
               <div className="flex items-center gap-3">
