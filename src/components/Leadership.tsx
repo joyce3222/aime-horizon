@@ -158,11 +158,6 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
         </div>
       )}
 
-      {/* Description */}
-      <p className="font-sans font-light text-navy/55 text-sm leading-relaxed mb-5">
-        {zh ? member.descZh : member.descEn}
-      </p>
-
       {/* Tags */}
       <div className="flex flex-wrap gap-1.5">
         {(zh ? member.tagsZh : member.tags).map((tag) => (
