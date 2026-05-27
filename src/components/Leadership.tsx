@@ -17,6 +17,7 @@ interface TeamMember {
   isAI: boolean;
   initials: string;
   avatarSeed: string;
+  avatarStyle?: string;
 }
 
 const realTeam: TeamMember[] = [
@@ -33,7 +34,8 @@ const realTeam: TeamMember[] = [
     affiliationZh: "墨尔本大学",
     isAI: false,
     initials: "J",
-    avatarSeed: "Joyce-AIME",
+    avatarSeed: "Moonlight-Serene&hair=long04&mouth=variant28",
+    avatarStyle: "adventurer",
   },
   {
     id: "chi",
@@ -98,9 +100,12 @@ const aiTeam: TeamMember[] = [
 
 // DiceBear AI-generated avatars
 function Avatar({ member }: { member: TeamMember }) {
-  const style = member.isAI ? "bottts-neutral" : "notionists";
+  const style = member.isAI ? "bottts-neutral" : (member.avatarStyle ?? "notionists");
   const bg = member.isAI ? "C5965A" : "0B1F3A";
-  const url = `https://api.dicebear.com/9.x/${style}/svg?seed=${encodeURIComponent(member.avatarSeed)}&backgroundColor=${bg}`;
+  // avatarSeed may contain extra params (e.g. "&hair=long04&mouth=variant28")
+  const [seed, ...extraParams] = member.avatarSeed.split("&");
+  const extra = extraParams.length ? "&" + extraParams.join("&") : "";
+  const url = `https://api.dicebear.com/9.x/${style}/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${bg}${extra}`;
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
