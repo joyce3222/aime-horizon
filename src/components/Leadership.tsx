@@ -16,6 +16,7 @@ interface TeamMember {
   affiliationZh?: string;
   isAI: boolean;
   initials: string;
+  avatarSeed: string;
 }
 
 const realTeam: TeamMember[] = [
@@ -32,6 +33,7 @@ const realTeam: TeamMember[] = [
     affiliationZh: "墨尔本大学",
     isAI: false,
     initials: "J",
+    avatarSeed: "Joyce-AIME",
   },
   {
     id: "chi",
@@ -46,6 +48,7 @@ const realTeam: TeamMember[] = [
     affiliationZh: "墨尔本大学",
     isAI: false,
     initials: "C",
+    avatarSeed: "Chi-AIME",
   },
   {
     id: "jay",
@@ -60,6 +63,7 @@ const realTeam: TeamMember[] = [
     affiliationZh: "墨尔本大学",
     isAI: false,
     initials: "J",
+    avatarSeed: "Jay-AIME",
   },
 ];
 
@@ -75,6 +79,7 @@ const aiTeam: TeamMember[] = [
     tagsZh: ["市场研究", "数据分析", "趋势情报"],
     isAI: true,
     initials: "A",
+    avatarSeed: "Aria-Intelligence",
   },
   {
     id: "nova",
@@ -87,81 +92,24 @@ const aiTeam: TeamMember[] = [
     tagsZh: ["数字战略", "品牌定位", "数字化转型"],
     isAI: true,
     initials: "N",
+    avatarSeed: "Nova-Digital",
   },
 ];
 
-// Geometric avatar SVGs for each member
+// DiceBear AI-generated avatars
 function Avatar({ member }: { member: TeamMember }) {
-  if (member.isAI) {
-    // AI: gold gradient with circuit-like pattern
-    return (
-      <svg viewBox="0 0 80 80" fill="none" className="w-full h-full">
-        <defs>
-          <linearGradient id={`aiGrad-${member.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#C5965A" />
-            <stop offset="100%" stopColor="#D4AF7A" />
-          </linearGradient>
-        </defs>
-        <circle cx="40" cy="40" r="38" fill={`url(#aiGrad-${member.id})`} />
-        {/* Circuit lines */}
-        <line x1="20" y1="40" x2="30" y2="40" stroke="#0B1F3A" strokeWidth="1" opacity="0.4"/>
-        <line x1="50" y1="40" x2="60" y2="40" stroke="#0B1F3A" strokeWidth="1" opacity="0.4"/>
-        <line x1="40" y1="20" x2="40" y2="30" stroke="#0B1F3A" strokeWidth="1" opacity="0.4"/>
-        <line x1="40" y1="50" x2="40" y2="60" stroke="#0B1F3A" strokeWidth="1" opacity="0.4"/>
-        <circle cx="40" cy="40" r="12" stroke="#0B1F3A" strokeWidth="1" opacity="0.25"/>
-        {/* Initial */}
-        <text
-          x="40" y="46"
-          textAnchor="middle"
-          fill="#0B1F3A"
-          fontSize="22"
-          fontFamily="Georgia, serif"
-          fontWeight="600"
-          opacity="0.85"
-        >
-          {member.initials}
-        </text>
-      </svg>
-    );
-  }
-
-  // Real person: navy with gold initial + subtle geometric accent
-  const shapes: Record<string, JSX.Element> = {
-    joyce: (
-      <>
-        <circle cx="64" cy="16" r="18" stroke="#C5965A" strokeWidth="0.8" opacity="0.2"/>
-        <circle cx="64" cy="16" r="10" stroke="#C5965A" strokeWidth="0.6" opacity="0.15"/>
-      </>
-    ),
-    chi: (
-      <>
-        <polygon points="70,10 78,26 62,26" stroke="#C5965A" strokeWidth="0.8" fill="none" opacity="0.2"/>
-        <line x1="16" y1="64" x2="30" y2="64" stroke="#C5965A" strokeWidth="0.8" opacity="0.15"/>
-      </>
-    ),
-    jay: (
-      <>
-        <rect x="58" y="8" width="18" height="18" stroke="#C5965A" strokeWidth="0.8" fill="none" opacity="0.2" transform="rotate(15 67 17)"/>
-      </>
-    ),
-  };
+  const style = member.isAI ? "bottts-neutral" : "notionists";
+  const bg = member.isAI ? "C5965A" : "0B1F3A";
+  const url = `https://api.dicebear.com/9.x/${style}/svg?seed=${encodeURIComponent(member.avatarSeed)}&backgroundColor=${bg}`;
 
   return (
-    <svg viewBox="0 0 80 80" fill="none" className="w-full h-full">
-      <circle cx="40" cy="40" r="38" fill="#0B1F3A" />
-      <circle cx="40" cy="40" r="38" stroke="#C5965A" strokeWidth="0.5" opacity="0.3"/>
-      {shapes[member.id]}
-      <text
-        x="40" y="47"
-        textAnchor="middle"
-        fill="#C5965A"
-        fontSize="26"
-        fontFamily="Georgia, serif"
-        fontWeight="500"
-      >
-        {member.initials}
-      </text>
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={url}
+      alt={`${member.name} avatar`}
+      className="w-full h-full object-cover"
+      loading="lazy"
+    />
   );
 }
 
@@ -185,7 +133,7 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
       )}
 
       {/* Avatar */}
-      <div className="w-16 h-16 rounded-full overflow-hidden mb-5 ring-1 ring-navy/10 group-hover:ring-gold/30 transition-all duration-300">
+      <div className="w-20 h-20 rounded-full overflow-hidden mb-5 ring-2 ring-navy/10 group-hover:ring-gold/40 transition-all duration-300">
         <Avatar member={member} />
       </div>
 
