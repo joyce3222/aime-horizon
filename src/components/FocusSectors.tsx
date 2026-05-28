@@ -110,7 +110,7 @@ export default function FocusSectors() {
         {/* Subtle aerial city photo — barely visible, adds depth */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://images.unsplash.com/photo-1559628233-100c798642d5?auto=format&fit=crop&w=1920&q=80"
+          src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1920&q=80"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center opacity-[0.07]"
