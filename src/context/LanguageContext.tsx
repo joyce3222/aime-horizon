@@ -36,7 +36,7 @@ export const translations: Record<string, Record<Language, string>> = {
 
   // ABOUT
   "about.label": { en: "About AIME Horizon", zh: "关于 AIME Horizon" },
-  "about.title": { en: "A Strategic Bridge Between Two Worlds", zh: "连接两个世界的战略桥梁" },
+  "about.title": { en: "Your Gateway to the ANZ–Asia Corridor", zh: "澳新亚洲走廊的战略入口" },
   "about.body1": {
     en: "AIME Horizon is a strategic advisory firm focused on cross-border engagement between Australia, New Zealand and Asia. We work with businesses, educational institutions, government stakeholders and industry leaders to support international partnerships, market expansion and innovation-led growth.",
     zh: "AIME Horizon 是一家专注于澳洲、新西兰与亚洲跨境合作的战略咨询机构。我们与企业、教育机构、政府及产业伙伴合作，推动国际合作、市场拓展与创新驱动的发展机会。",
@@ -125,7 +125,7 @@ export const translations: Record<string, Record<Language, string>> = {
 
   // EXPERTISE
   "expertise.label": { en: "Cross-border Expertise", zh: "跨境专业能力" },
-  "expertise.title": { en: "Where East Meets West", zh: "东西方交汇之处" },
+  "expertise.title": { en: "Deeply Rooted in Both Markets", zh: "深耕双边市场" },
   "expertise.body": {
     en: "Our team brings first-hand experience operating across Australian, New Zealand and Asian business and government environments. We understand the nuances — cultural, regulatory and commercial — that determine success in cross-border engagements. This dual perspective is our greatest asset for clients.",
     zh: "我们的团队拥有在澳洲、新西兰及亚洲商业与政府环境中实际运营的丰富经验。我们深刻理解跨境合作成功所需的文化、监管与商业细节。这种双重视角，是我们为客户带来的最大价值。",
