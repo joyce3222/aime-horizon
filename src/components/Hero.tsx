@@ -10,10 +10,21 @@ export default function Hero() {
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-navy"
     >
-      {/* Background: abstract geometric lines suggesting cross-border connections */}
+      {/* Background: city photo + overlays */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Hero photo — night aerial cityscape */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1920&q=80"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        {/* Navy colour overlay — keeps the brand palette */}
+        <div className="absolute inset-0 bg-navy/80" />
+
         {/* Subtle radial glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gold/5 blur-[120px]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gold/8 blur-[120px]" />
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-navy-light/40 blur-[80px]" />
 
         {/* Grid overlay */}

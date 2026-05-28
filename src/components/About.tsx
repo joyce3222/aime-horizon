@@ -60,12 +60,22 @@ export default function About() {
             <div className="relative">
               {/* Background card */}
               <div className="bg-navy rounded-sm p-10 relative overflow-hidden">
+                {/* Background photo — harbor/waterfront */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://images.unsplash.com/photo-1536599018102-9f803c140fc1?auto=format&fit=crop&w=800&q=80"
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover object-center opacity-[0.22]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-navy/20 via-navy/60 to-navy/95 pointer-events-none" />
+
                 {/* Decorative */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gold/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gold/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-xl" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gold/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl z-[1]" />
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gold/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-xl z-[1]" />
 
                 {/* ANZ–Asia connection visual */}
-                <div className="relative mb-10">
+                <div className="relative z-10 mb-10">
                   <svg viewBox="0 0 360 100" className="w-full opacity-60">
                     {/* Connecting arc */}
                     <path
@@ -93,7 +103,7 @@ export default function About() {
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-6">
+                <div className="relative z-10 grid grid-cols-3 gap-6">
                   {stats.map((stat, i) => (
                     <div key={i} className="text-center">
                       <div className="font-serif text-2xl md:text-3xl text-gold font-light mb-1">

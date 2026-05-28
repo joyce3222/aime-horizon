@@ -51,8 +51,18 @@ export default function CrossBorderExpertise() {
           {/* Left: Visual */}
           <div className="reveal order-2 lg:order-1">
             <div className="relative bg-navy rounded-sm p-10 overflow-hidden">
+              {/* Background photo — professional business setting */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover object-center opacity-[0.18]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-navy/50 to-navy/90 pointer-events-none" />
+
               {/* Glow */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gold/10 blur-3xl pointer-events-none" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gold/10 blur-3xl pointer-events-none z-[1]" />
 
               {/* World map SVG hint */}
               <svg viewBox="0 0 400 220" className="w-full opacity-80 relative z-10" fill="none">
@@ -92,7 +102,7 @@ export default function CrossBorderExpertise() {
               </svg>
 
               {/* Caption */}
-              <p className="text-white/40 text-xs font-sans font-light text-center mt-4 tracking-wider">
+              <p className="relative z-10 text-white/40 text-xs font-sans font-light text-center mt-4 tracking-wider">
                 Cross-border Network · ANZ ↔ Asia
               </p>
             </div>

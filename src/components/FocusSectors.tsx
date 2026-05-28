@@ -107,6 +107,14 @@ export default function FocusSectors() {
     <section id="sectors" ref={sectionRef} className="py-28 bg-navy relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
+        {/* Subtle aerial city photo — barely visible, adds depth */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://images.unsplash.com/photo-1559628233-100c798642d5?auto=format&fit=crop&w=1920&q=80"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-[0.07]"
+        />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-gold/4 blur-[100px]" />
         <div className="absolute inset-0 opacity-[0.03]"
           style={{
