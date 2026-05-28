@@ -165,12 +165,34 @@ export const translations: Record<string, Record<Language, string>> = {
     zh: "简要介绍您的机构及期望实现的目标…",
   },
 
+  // NEWSLETTER
+  "newsletter.label": { en: "Intelligence Briefing", zh: "市场情报简报" },
+  "newsletter.title": { en: "Australia–China Business Insights", zh: "澳中商业洞察" },
+  "newsletter.subtitle": {
+    en: "Monthly intelligence on bilateral trade, policy, and market opportunities across the ANZ–Asia corridor — delivered to your inbox.",
+    zh: "每月一期，覆盖澳中双边贸易、政策动态与市场机遇，直达您的邮箱。",
+  },
+  "newsletter.placeholder": { en: "Your email address", zh: "您的电子邮箱" },
+  "newsletter.cta": { en: "Subscribe", zh: "立即订阅" },
+  "newsletter.privacy": {
+    en: "No spam. One email per month. Unsubscribe anytime.",
+    zh: "无垃圾邮件，每月一封，随时退订。",
+  },
+  "newsletter.success": {
+    en: "You're subscribed. Welcome aboard.",
+    zh: "订阅成功，欢迎加入。",
+  },
+  "newsletter.pill1": { en: "Policy & Regulation", zh: "政策法规" },
+  "newsletter.pill2": { en: "Trade & Investment", zh: "贸易与投资" },
+  "newsletter.pill3": { en: "Sector Intelligence", zh: "行业情报" },
+  "newsletter.pill4": { en: "Market Opportunities", zh: "市场机遇" },
+
   // FOOTER
   "footer.tagline": {
     en: "Strategic advisory for cross-border engagement between Australia, New Zealand and Asia.",
     zh: "专注澳新与亚洲跨境合作的战略咨询机构。",
   },
-  "footer.rights": { en: "© 2024 AIME Horizon. All rights reserved.", zh: "© 2024 AIME Horizon 版权所有。" },
+  "footer.rights": { en: "© 2026 AIME Horizon. All rights reserved.", zh: "© 2026 AIME Horizon 版权所有。" },
   "footer.website": { en: "www.aimehorizon.com", zh: "www.aimehorizon.com" },
 };
 

@@ -141,8 +141,14 @@ function LeadCapture({
 const WELCOME: Message = {
   role: "assistant",
   content:
-    "Hi! I'm Nova, AIME Horizon's AI Digital Strategy Consultant. I'm here to help with questions about our ANZ–Asia advisory services — market entry, brand strategy, stakeholder engagement, and more. What can I help you with today?",
+    "Hi! I'm Nova, AIME Horizon's AI Digital Strategy Consultant. I can help with questions about our ANZ–Asia advisory services — market entry, brand strategy, stakeholder engagement, and more.\n\nWhat can I help you with today?",
 };
+
+const QUICK_REPLIES = [
+  { en: "What services do you offer?", zh: "你们提供哪些服务？" },
+  { en: "How to enter the Australian market?", zh: "如何进入澳大利亚市场？" },
+  { en: "Tell me about the team", zh: "介绍一下团队" },
+];
 
 export default function Nova() {
   const [open, setOpen] = useState(false);
@@ -152,6 +158,9 @@ export default function Nova() {
   const [showLead, setShowLead] = useState(false);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
   const [unread, setUnread] = useState(0);
+  const [lang] = useState<"en" | "zh">(() =>
+    typeof navigator !== "undefined" && navigator.language.startsWith("zh") ? "zh" : "en"
+  );
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -346,6 +355,24 @@ export default function Nova() {
               </div>
             ))}
 
+            {/* Quick replies — only shown at the welcome state */}
+            {messages.length === 1 && !streaming && (
+              <div className="flex flex-wrap gap-2 pl-9">
+                {QUICK_REPLIES.map((qr) => (
+                  <button
+                    key={qr.en}
+                    onClick={() => {
+                      setInput(lang === "zh" ? qr.zh : qr.en);
+                      setTimeout(() => inputRef.current?.focus(), 50);
+                    }}
+                    className="text-[11px] font-sans font-light text-white/55 border border-white/15 hover:border-gold/40 hover:text-gold/80 rounded-full px-3 py-1.5 transition-all duration-200 text-left"
+                  >
+                    {lang === "zh" ? qr.zh : qr.en}
+                  </button>
+                ))}
+              </div>
+            )}
+
             {/* Lead capture form */}
             {showLead && !leadSubmitted && (
               <LeadCapture onClose={() => setShowLead(false)} onSubmit={handleLeadSubmit} />
@@ -400,12 +427,14 @@ export default function Nova() {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close Nova chat" : "Chat with Nova"}
         className="fixed bottom-5 right-5 sm:right-6 z-50 flex items-center gap-2.5 group"
-        style={{
-          filter: "drop-shadow(0 8px 24px rgba(0,0,0,0.35))",
-        }}
+        style={{ filter: "drop-shadow(0 8px 24px rgba(0,0,0,0.35))" }}
       >
+        {/* Pulse ring — only when closed */}
+        {!open && (
+          <span className="absolute inset-0 rounded-full ring-2 ring-gold/20 animate-ping opacity-60 pointer-events-none" />
+        )}
         <div
-          className={`relative flex items-center gap-2.5 bg-navy border border-gold/30 hover:border-gold/60 rounded-full transition-all duration-300 group-hover:shadow-lg group-hover:shadow-gold/15 ${
+          className={`relative flex items-center gap-2.5 bg-navy border border-gold/35 hover:border-gold/65 rounded-full transition-all duration-300 group-hover:shadow-xl group-hover:shadow-gold/20 ${
             open ? "px-3 py-2" : "px-4 py-2.5"
           }`}
         >
@@ -417,12 +446,12 @@ export default function Nova() {
           )}
           {open && (
             <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5 text-white/60">
-              <path d="M3 8 L13 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M4 4 L12 12 M12 4 L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           )}
           {/* Unread badge */}
           {unread > 0 && !open && (
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-gold rounded-full flex items-center justify-center text-[9px] font-sans font-bold text-navy">
+            <span className="absolute -top-1.5 -right-1 w-5 h-5 bg-gold rounded-full flex items-center justify-center text-[9px] font-sans font-bold text-navy shadow-sm">
               {unread}
             </span>
           )}
