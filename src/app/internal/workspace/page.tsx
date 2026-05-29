@@ -274,6 +274,12 @@ export default function WorkspacePage() {
           <span className="text-gold text-xs tracking-widest uppercase font-sans">AI Workforce</span>
         </div>
         <div className="flex items-center gap-4">
+          <a
+            href="/internal/meeting"
+            className="text-cream/30 hover:text-cream/60 text-xs font-sans tracking-wide transition-colors"
+          >
+            会议记录
+          </a>
           {isAdmin && (
             <a
               href="/internal/admin"
