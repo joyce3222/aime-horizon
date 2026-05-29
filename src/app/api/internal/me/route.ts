@@ -6,5 +6,6 @@ export async function GET() {
   if (!user?.value) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return Response.json({ username: user.value });
+  const admin = process.env.INTERNAL_ADMIN || "Joyce";
+  return Response.json({ username: user.value, isAdmin: user.value === admin });
 }

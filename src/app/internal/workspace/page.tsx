@@ -93,6 +93,7 @@ export default function WorkspacePage() {
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [username, setUsername] = useState<string>("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [listening, setListening] = useState(false);
   const [voiceLang, setVoiceLang] = useState<"zh-CN" | "en-US">("zh-CN");
   const recognitionRef = useRef<SpeechRecognition | null>(null);
@@ -106,6 +107,7 @@ export default function WorkspacePage() {
       .then((data) => {
         if (data?.username) {
           setUsername(data.username);
+          setIsAdmin(data.isAdmin || false);
           return fetch("/api/internal/conversations");
         }
         router.push("/internal");
@@ -270,6 +272,14 @@ export default function WorkspacePage() {
           <span className="text-gold text-xs tracking-widest uppercase font-sans">AI Workforce</span>
         </div>
         <div className="flex items-center gap-4">
+          {isAdmin && (
+            <a
+              href="/internal/admin"
+              className="text-gold/50 hover:text-gold text-xs font-sans tracking-wide transition-colors"
+            >
+              Admin
+            </a>
+          )}
           {username && (
             <span className="text-cream/40 text-xs font-sans">{username}</span>
           )}
