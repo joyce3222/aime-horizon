@@ -96,7 +96,8 @@ export default function WorkspacePage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [listening, setListening] = useState(false);
   const [voiceLang, setVoiceLang] = useState<"zh-CN" | "en-US">("zh-CN");
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recognitionRef = useRef<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
@@ -215,8 +216,9 @@ export default function WorkspacePage() {
   }
 
   function toggleVoice() {
-    const SR = (window as typeof window & { SpeechRecognition?: typeof SpeechRecognition; webkitSpeechRecognition?: typeof SpeechRecognition }).SpeechRecognition
-      || (window as typeof window & { webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const w = window as any;
+    const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
 
     if (!SR) {
       alert("您的浏览器不支持语音识别，请升级至最新版本的 Chrome、Edge 或 Safari。");
@@ -237,7 +239,7 @@ export default function WorkspacePage() {
     rec.onstart = () => setListening(true);
     rec.onend = () => setListening(false);
     rec.onerror = () => setListening(false);
-    rec.onresult = (e) => {
+    rec.onresult = (e: { results: { [x: string]: { [x: string]: { transcript: string } } } }) => {
       const transcript = e.results[0][0].transcript;
       setInput((prev) => (prev ? prev + " " + transcript : transcript));
     };
