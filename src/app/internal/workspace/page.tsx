@@ -94,6 +94,11 @@ export default function WorkspacePage() {
   const [streaming, setStreaming] = useState(false);
   const [username, setUsername] = useState<string>("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [showImageGen, setShowImageGen] = useState(false);
+  const [imagePrompt, setImagePrompt] = useState("");
+  const [imageStyle, setImageStyle] = useState("general");
+  const [generatingImage, setGeneratingImage] = useState(false);
+  const [generatedImages, setGeneratedImages] = useState<{url: string; prompt: string}[]>([]);
   const [listening, setListening] = useState(false);
   const [voiceLang, setVoiceLang] = useState<"zh-CN" | "en-US">("zh-CN");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -247,6 +252,27 @@ export default function WorkspacePage() {
     rec.start();
   }
 
+  async function generateImage() {
+    if (!imagePrompt.trim() || generatingImage) return;
+    setGeneratingImage(true);
+    try {
+      const res = await fetch("/api/internal/image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: imagePrompt, style: imageStyle }),
+      });
+      const data = await res.json();
+      if (data.imageUrl) {
+        setGeneratedImages((prev) => [{ url: data.imageUrl, prompt: imagePrompt }, ...prev]);
+        setImagePrompt("");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setGeneratingImage(false);
+    }
+  }
+
   function clearConversation() {
     setConversations((prev) => {
       const next = { ...prev, [activeAdvisor.id]: [] };
@@ -360,6 +386,83 @@ export default function WorkspacePage() {
               </button>
             )}
           </div>
+
+          {/* Image generation panel — China advisor only */}
+          {activeAdvisor.id === "china" && (
+            <div className="border-b border-cream/10 px-6 py-3 flex-shrink-0">
+              <button
+                onClick={() => setShowImageGen((v) => !v)}
+                className="flex items-center gap-2 text-xs font-sans text-cream/40 hover:text-gold transition-colors"
+              >
+                <span className="text-base">🎨</span>
+                <span>小红书配图生成</span>
+                <span className="text-cream/20">{showImageGen ? "▲" : "▼"}</span>
+              </button>
+
+              {showImageGen && (
+                <div className="mt-3 space-y-3">
+                  <div className="flex gap-2">
+                    {[
+                      { value: "general", label: "通用" },
+                      { value: "product", label: "产品图" },
+                      { value: "lifestyle", label: "生活方式" },
+                    ].map((s) => (
+                      <button
+                        key={s.value}
+                        onClick={() => setImageStyle(s.value)}
+                        className={`text-xs font-sans px-3 py-1.5 rounded border transition-colors ${
+                          imageStyle === s.value
+                            ? "bg-gold/20 border-gold/40 text-gold"
+                            : "border-cream/10 text-cream/40 hover:text-cream/60"
+                        }`}
+                      >
+                        {s.label}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={imagePrompt}
+                      onChange={(e) => setImagePrompt(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && generateImage()}
+                      placeholder="描述您想要的图片，例如：清新简约的护肤品摆拍，粉色背景…"
+                      className="flex-1 bg-navy-light border border-cream/10 focus:border-gold/40 text-cream placeholder-cream/20 px-4 py-2.5 font-sans text-xs rounded outline-none transition-colors"
+                    />
+                    <button
+                      onClick={generateImage}
+                      disabled={!imagePrompt.trim() || generatingImage}
+                      className="bg-gold hover:bg-gold-dark disabled:opacity-30 text-navy px-4 py-2.5 rounded font-sans text-xs tracking-wide transition-colors flex-shrink-0"
+                    >
+                      {generatingImage ? "生成中…" : "生成"}
+                    </button>
+                  </div>
+                  {generatedImages.length > 0 && (
+                    <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto">
+                      {generatedImages.map((img, i) => (
+                        <div key={i} className="relative group rounded-lg overflow-hidden border border-cream/10">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={img.url} alt={img.prompt} className="w-full h-32 object-cover" />
+                          <div className="absolute inset-0 bg-navy/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                            <a
+                              href={img.url}
+                              download={`xiaohongshu_${i + 1}.png`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="bg-gold text-navy text-xs font-sans px-3 py-1.5 rounded"
+                            >
+                              下载
+                            </a>
+                          </div>
+                          <p className="absolute bottom-0 left-0 right-0 text-cream/60 text-xs font-sans px-2 py-1 bg-navy/70 truncate">{img.prompt}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
