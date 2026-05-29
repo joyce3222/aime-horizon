@@ -93,6 +93,8 @@ export default function WorkspacePage() {
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [username, setUsername] = useState<string>("");
+  const [listening, setListening] = useState(false);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
@@ -192,6 +194,37 @@ export default function WorkspacePage() {
       e.preventDefault();
       sendMessage();
     }
+  }
+
+  function toggleVoice() {
+    const SR = (window as typeof window & { SpeechRecognition?: typeof SpeechRecognition; webkitSpeechRecognition?: typeof SpeechRecognition }).SpeechRecognition
+      || (window as typeof window & { webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition;
+
+    if (!SR) {
+      alert("您的浏览器不支持语音识别，请使用 Chrome 或 Edge。");
+      return;
+    }
+
+    if (listening) {
+      recognitionRef.current?.stop();
+      return;
+    }
+
+    const rec = new SR();
+    rec.lang = "zh-CN";
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+    recognitionRef.current = rec;
+
+    rec.onstart = () => setListening(true);
+    rec.onend = () => setListening(false);
+    rec.onerror = () => setListening(false);
+    rec.onresult = (e) => {
+      const transcript = e.results[0][0].transcript;
+      setInput((prev) => (prev ? prev + " " + transcript : transcript));
+    };
+
+    rec.start();
   }
 
   function clearConversation() {
@@ -340,6 +373,19 @@ export default function WorkspacePage() {
                   t.style.height = Math.min(t.scrollHeight, 160) + "px";
                 }}
               />
+              <button
+                onClick={toggleVoice}
+                title={listening ? "停止录音" : "语音输入"}
+                className={`flex-shrink-0 w-11 h-11 rounded flex items-center justify-center transition-colors border ${
+                  listening
+                    ? "bg-red-500/20 border-red-400/50 text-red-400 animate-pulse"
+                    : "bg-navy-light border-cream/10 text-cream/40 hover:text-cream/70 hover:border-cream/30"
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                  <path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm-1 17.93V21H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2h-2v-2.07A8 8 0 0 0 20 11a1 1 0 0 0-2 0 6 6 0 0 1-12 0 1 1 0 0 0-2 0 8 8 0 0 0 7 7.93z"/>
+                </svg>
+              </button>
               <button
                 onClick={sendMessage}
                 disabled={!input.trim() || streaming}
