@@ -104,8 +104,15 @@ export default function WorkspacePage() {
     fetch("/api/internal/me")
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
-        if (data?.username) setUsername(data.username);
-        else router.push("/internal");
+        if (data?.username) {
+          setUsername(data.username);
+          return fetch("/api/internal/conversations");
+        }
+        router.push("/internal");
+      })
+      .then((r) => (r && r.ok ? r.json() : null))
+      .then((data) => {
+        if (data?.conversations) setConversations(data.conversations);
       })
       .catch(() => router.push("/internal"));
   }, [router]);
@@ -187,6 +194,14 @@ export default function WorkspacePage() {
       console.error(err);
     } finally {
       setStreaming(false);
+      setConversations((prev) => {
+        fetch("/api/internal/conversations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ conversations: prev }),
+        }).catch(() => {});
+        return prev;
+      });
     }
   }
 
@@ -229,7 +244,15 @@ export default function WorkspacePage() {
   }
 
   function clearConversation() {
-    setConversations((prev) => ({ ...prev, [activeAdvisor.id]: [] }));
+    setConversations((prev) => {
+      const next = { ...prev, [activeAdvisor.id]: [] };
+      fetch("/api/internal/conversations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conversations: next }),
+      }).catch(() => {});
+      return next;
+    });
   }
 
   async function handleLogout() {
