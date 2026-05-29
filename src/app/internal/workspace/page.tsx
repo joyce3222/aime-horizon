@@ -92,9 +92,20 @@ export default function WorkspacePage() {
   const [conversations, setConversations] = useState<ConversationMap>({});
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
+  const [username, setUsername] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    fetch("/api/internal/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data?.username) setUsername(data.username);
+        else router.push("/internal");
+      })
+      .catch(() => router.push("/internal"));
+  }, [router]);
 
   const currentMessages = conversations[activeAdvisor.id] || [];
 
@@ -201,12 +212,17 @@ export default function WorkspacePage() {
           <span className="text-cream/20">·</span>
           <span className="text-gold text-xs tracking-widest uppercase font-sans">AI Workforce</span>
         </div>
-        <button
-          onClick={handleLogout}
-          className="text-cream/30 hover:text-cream/60 text-xs font-sans tracking-wide transition-colors"
-        >
-          Sign out
-        </button>
+        <div className="flex items-center gap-4">
+          {username && (
+            <span className="text-cream/40 text-xs font-sans">{username}</span>
+          )}
+          <button
+            onClick={handleLogout}
+            className="text-cream/30 hover:text-cream/60 text-xs font-sans tracking-wide transition-colors"
+          >
+            Sign out
+          </button>
+        </div>
       </header>
 
       <div className="flex flex-1 overflow-hidden">

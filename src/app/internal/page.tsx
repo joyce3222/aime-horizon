@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function InternalLogin() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ export default function InternalLogin() {
     const res = await fetch("/api/internal/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ username, password }),
     });
 
     if (res.ok) {
@@ -41,23 +42,32 @@ export default function InternalLogin() {
           <p className="text-cream/50 text-sm font-sans tracking-wide">AI Digital Workforce</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            className="w-full bg-navy-light border border-cream/10 text-cream placeholder-cream/30 px-5 py-4 font-sans text-sm rounded focus:outline-none focus:border-gold/60 transition-colors"
+            autoFocus
+            autoComplete="username"
+          />
           <div>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Access password"
+              placeholder="Password"
               className="w-full bg-navy-light border border-cream/10 text-cream placeholder-cream/30 px-5 py-4 font-sans text-sm rounded focus:outline-none focus:border-gold/60 transition-colors"
-              autoFocus
+              autoComplete="current-password"
             />
             {error && (
-              <p className="text-red-400 text-xs mt-2 font-sans">Incorrect password. Please try again.</p>
+              <p className="text-red-400 text-xs mt-2 font-sans">Incorrect username or password.</p>
             )}
           </div>
           <button
             type="submit"
-            disabled={loading || !password}
+            disabled={loading || !username || !password}
             className="w-full bg-gold hover:bg-gold-dark disabled:opacity-40 text-navy font-sans text-sm tracking-widest uppercase py-4 rounded transition-colors"
           >
             {loading ? "Verifying..." : "Enter Workspace"}

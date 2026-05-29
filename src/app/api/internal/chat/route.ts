@@ -72,8 +72,8 @@ Respond in the same language the user writes in (English or Chinese).`,
 
 export async function POST(req: NextRequest) {
   const cookieStore = await cookies();
-  const auth = cookieStore.get("internal_auth");
-  if (!auth || auth.value !== "1") {
+  const auth = cookieStore.get("internal_user");
+  if (!auth || !auth.value) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
