@@ -94,6 +94,7 @@ export default function WorkspacePage() {
   const [streaming, setStreaming] = useState(false);
   const [username, setUsername] = useState<string>("");
   const [listening, setListening] = useState(false);
+  const [voiceLang, setVoiceLang] = useState<"zh-CN" | "en-US">("zh-CN");
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -201,7 +202,7 @@ export default function WorkspacePage() {
       || (window as typeof window & { webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition;
 
     if (!SR) {
-      alert("您的浏览器不支持语音识别，请使用 Chrome 或 Edge。");
+      alert("您的浏览器不支持语音识别，请升级至最新版本的 Chrome、Edge 或 Safari。");
       return;
     }
 
@@ -211,7 +212,7 @@ export default function WorkspacePage() {
     }
 
     const rec = new SR();
-    rec.lang = "zh-CN";
+    rec.lang = voiceLang;
     rec.interimResults = false;
     rec.maxAlternatives = 1;
     recognitionRef.current = rec;
@@ -374,6 +375,13 @@ export default function WorkspacePage() {
                 }}
               />
               <button
+                onClick={() => setVoiceLang((l) => l === "zh-CN" ? "en-US" : "zh-CN")}
+                title="切换语音语言"
+                className="flex-shrink-0 w-11 h-11 rounded flex items-center justify-center bg-navy-light border border-cream/10 text-cream/40 hover:text-cream/70 hover:border-cream/30 transition-colors font-sans text-xs"
+              >
+                {voiceLang === "zh-CN" ? "中" : "EN"}
+              </button>
+              <button
                 onClick={toggleVoice}
                 title={listening ? "停止录音" : "语音输入"}
                 className={`flex-shrink-0 w-11 h-11 rounded flex items-center justify-center transition-colors border ${
@@ -395,7 +403,7 @@ export default function WorkspacePage() {
               </button>
             </div>
             <p className="text-cream/20 text-xs font-sans mt-2 text-center">
-              Enter to send · Shift+Enter for new line · Conversations are private
+              Enter to send · Shift+Enter for new line · 点击中/EN切换语音语言
             </p>
           </div>
         </main>
